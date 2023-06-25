@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+</head>
+<body>
+  <header>
+    <nav>
+      <ul class="navbar">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li class="right"><a href="{{ url_for('logout') }}" >Logout</a></li>
+        <li class="right"><a href="#" class="active">{{ username }}</a></li>
+      </ul>
+    </nav>
+  </header>
+  </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+  <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</head>
+<body>
+    <header>
+        <nav>
+          <ul class="navbar">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li class="right"><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li class="right"><a href="#" class="active" style="border-radius: 12px;">{{ name }}</a>
+          </ul>
+        </nav>
+      </header>
+
+
+  <div class="container">
+    <h2>Admin Dashboard</h2>
+
+    {% include "_messages.html" %}
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users.items %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+              <button type="button" class="delete-button" onclick="showConfirmation('{{ user.id }}', '{{ id }}')">Delete</button>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  
+  <div style="text-align: center; color: white; ">
+  {% if users.has_prev %}
+  <a href="{{ url_for('admin', id=id, page=users.prev_num) }}" class="btn btn-info btn-sm mt-3"> Prev </a>
+  {% endif %}
+
+  {% for page_num in users.iter_pages() %}
+  {% if page_num %}
+  {% if users.page == page_num %}
+  <a href="{{ url_for('admin', id=id, page=page_num) }}" class="btn btn-info btn-sm mt-3"> {{ page_num }} </a>
+  {% else %}
+  <a href="{{ url_for('admin', id=id, page=page_num) }}" class="btn btn-outline-info btn-sm mt-3"> {{ page_num }} </a>
+  {% endif %}
+  {% else %}
+  ...
+  {% endif %}
+  {% endfor %}
+  {% if users.has_next %}
+  <a href="{{ url_for('admin', id=id, page=users.next_num) }}" class="btn btn-info btn-sm mt-3"> Next </a>
+  {% endif %}
+ </div>
+
+  
+  <!-- Modal Pop-up -->
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="hideConfirmation()">&times;</span>
+      <p>Are you sure you want to delete this user?</p>
+      <form action="" method="post" id="deleteForm">
+        <button type="submit" class="delete-button">Delete</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
